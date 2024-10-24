@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentPortalController implements Initializable {
+public class OfficerPortalController implements Initializable {
 
 
     @FXML
@@ -74,6 +74,7 @@ public class StudentPortalController implements Initializable {
     void paymentButtonAction(MouseEvent event) {
         tab.getSelectionModel().select(paymentTab);
     }
+
 
     @FXML
     void waiverButtonAction(MouseEvent event) {

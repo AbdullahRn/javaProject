@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentPortalController implements Initializable {
+public class FacultyPortalController implements Initializable {
 
 
     @FXML

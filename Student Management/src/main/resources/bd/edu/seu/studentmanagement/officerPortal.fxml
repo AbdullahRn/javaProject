@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.controller.StudentPortalController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.controller.OfficerPortalController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/after%20login.png" />
+            <Image url="@WelcomeScenePictures/Officer%20portal.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
@@ -62,7 +62,7 @@
       </ImageView>
       <ImageView fx:id="homeButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="253.0" onMouseClicked="#homeButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20meny%20button%206.png" />
+            <Image url="@WelcomeScenePictures/button.png" />
          </image>
       </ImageView>
       <TabPane fx:id="tab" layoutX="255.0" layoutY="67.0" prefHeight="646.0" prefWidth="1017.0" tabClosingPolicy="UNAVAILABLE">

@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.controller.StudentPortalController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.controller.FacultyPortalController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/after%20login.png" />
+            <Image url="@WelcomeScenePictures/faculty%20portal.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
