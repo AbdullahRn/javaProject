@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,12 +27,12 @@
       </ImageView>
       <ImageView fx:id="gradeButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="300.0" onMouseClicked="#gradeButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20menu%20button%205.png" />
+            <Image url="@WelcomeScenePictures/student%20assign%20button.png" />
          </image>
       </ImageView>
       <ImageView fx:id="waiverButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="348.0" onMouseClicked="#waiverButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20menu%20buttons%203.png" />
+            <Image url="@WelcomeScenePictures/faculty%20assign%20button.png" />
          </image>
       </ImageView>
       <ImageView fx:id="paymentButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="396.0" onMouseClicked="#paymentButtonAction" pickOnBounds="true" preserveRatio="true">
@@ -45,12 +50,12 @@
             <Image url="@WelcomeScenePictures/student%20menu%20buttons.png" />
          </image>
       </ImageView>
-      <Label layoutX="15.0" layoutY="161.0" text="STUDENT NAME" textFill="WHITE">
+      <Label layoutX="15.0" layoutY="161.0" text="OFFICER NAME" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="191.0" text="STUDENT ID:" textFill="WHITE">
+      <Label layoutX="15.0" layoutY="191.0" text="OFFICER ID:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
@@ -67,44 +72,328 @@
       </ImageView>
       <TabPane fx:id="tab" layoutX="255.0" layoutY="67.0" prefHeight="646.0" prefWidth="1017.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-            <Tab fx:id="homeTab" text="Home">
+            <Tab fx:id="homeTab" text="Dashboard">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="304.0" layoutY="196.0" text="Home">
+                        <Label layoutX="30.0" layoutY="7.0" text="Total Revenue:">
                            <font>
-                              <Font size="44.0" />
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="476.0" layoutY="14.0" text="Due Payment:">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="172.0" layoutY="134.0" text="Studends List">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="476.0" layoutY="60.0" text="Total student assigned:">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="60.0" text="Total Faculty Assigned:">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="studentTable" layoutX="23.0" layoutY="197.0" prefHeight="385.0" prefWidth="470.0">
+                          <columns>
+                            <TableColumn fx:id="studentIdColumn" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="studentNameColumn" prefWidth="185.0" text="Name" />
+                              <TableColumn fx:id="studentCgpaColumn" prefWidth="105.0" text="CGPA" />
+                              <TableColumn fx:id="studentWaiverColumn" prefWidth="104.0" text="Waiver" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="facultyTable" layoutX="524.0" layoutY="197.0" prefHeight="385.0" prefWidth="470.0">
+                           <columns>
+                              <TableColumn fx:id="facultyInitialColumn" prefWidth="99.0" text="Initial" />
+                              <TableColumn fx:id="facultyNameColumn" prefWidth="207.0" text="Name" />
+                              <TableColumn fx:id="facultyCreditColumn" prefWidth="162.0" text="Credits Taken" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="studentSearchBar" layoutX="23.0" layoutY="171.0" onKeyReleased="#searchStudent" prefHeight="25.0" prefWidth="470.0" promptText="Search Student" />
+                        <TextField fx:id="facultySearchBar" layoutX="523.0" layoutY="171.0" onKeyReleased="#searchFaculty" prefHeight="25.0" prefWidth="470.0" promptText="Search Faculty" />
+                        <Label layoutX="700.0" layoutY="134.0" text="Faculty List">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="gradeTab" text="Grade">
+            <Tab fx:id="gradeTab" text="Student">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="278.0" layoutY="263.0" text="Grade">
+                        <ImageView fx:id="assignStudentPicture" fitHeight="125.0" fitWidth="125.0" layoutX="544.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@WelcomeScenePictures/ezgif-2-63d3b7c290.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="35.0" layoutY="42.0" text="Student Name:">
                            <font>
-                              <Font size="48.0" />
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignStudentNameField" layoutX="35.0" layoutY="85.0" onKeyReleased="#assignStudentNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="38.0" layoutY="130.0" text="ID:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignStudentIdField" layoutX="38.0" layoutY="165.0" onKeyReleased="#assignStudentIdInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="35.0" layoutY="297.0" text="Starting Semester:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignStudentHscField" layoutX="38.0" layoutY="244.0" onKeyReleased="#assignStudentGpaInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="assignStudentSemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0" text="Summer">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <PasswordField fx:id="assignStudentPasswordField" layoutX="37.0" layoutY="413.0" prefHeight="30.0" prefWidth="273.0" />
+                        <Label layoutX="38.0" layoutY="208.0" text="HSC GPA:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="179.0" text="Student Name:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="220.0" text="ID:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="267.0" text="HSC GPA:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="309.0" text="Starting Semester:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignStudentName" layoutX="634.0" layoutY="179.0" text="Name will be here">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignStudentID" layoutX="634.0" layoutY="220.0" text="ID will be here">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignStudentGpa" layoutX="634.0" layoutY="267.0" text="HSC GPA will be here">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="634.0" layoutY="309.0" text="Summer">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="352.0" text="Waiver: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignWaiverAmount" layoutX="634.0" layoutY="352.0">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="35.0" layoutY="453.0" text="Select Picture:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="confirmButton" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentAssignConfirm" text="Confirm">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="assignStudentPictureButton" layoutX="193.0" layoutY="455.0" mnemonicParsing="false" onAction="#uploadStudentPicture" text="Upload">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="35.0" layoutY="379.0" text="Password:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="304.0" layoutY="560.0" text="Click here to : ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="442.0" layoutY="560.0" onMouseClicked="#studentEditInitiate" text="Edit" textFill="#1500ff">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="editStudentSearchButton" layoutX="249.0" layoutY="164.0" mnemonicParsing="false" onAction="#editStudentSearch" text="Search">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="editButtonStudent" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentEdit" prefHeight="44.0" prefWidth="97.0" text="Edit">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="486.0" layoutY="560.0" text="or">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="515.0" layoutY="559.0" onMouseClicked="#studentDeleteInitiate" text="Delete" textFill="#1500ff">
+                           <font>
+                              <Font size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="waiverTab" text="Waiver">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Tab fx:id="waiverTab" text="Faculty">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="283.0" layoutY="215.0" text="Waiver">
+                        <ImageView fx:id="assignFacultyPicture" fitHeight="125.0" fitWidth="125.0" layoutX="552.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@WelcomeScenePictures/ezgif-2-63d3b7c290.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="35.0" layoutY="42.0" text="Faculty Name:">
                            <font>
-                              <Font size="46.0" />
+                              <Font size="23.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="assignFacultyNameField" layoutX="35.0" layoutY="85.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="38.0" layoutY="130.0" text="Initial:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignFacultyField" layoutX="38.0" layoutY="165.0" onKeyReleased="#assignFacultyIntlInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="assignFacultyCredits" layoutX="38.0" layoutY="244.0" onKeyReleased="#assignFacultyCreditInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="35.0" layoutY="297.0" text="Starting Semester:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignFacultySemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0" text="Summer">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <PasswordField fx:id="assignFacultyPasswordField" layoutX="37.0" layoutY="413.0" prefHeight="30.0" prefWidth="273.0" />
+                        <Label layoutX="38.0" layoutY="208.0" text="Credits: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="179.0" text="Faculty Name:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="220.0" text="Initial">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="267.0" text="Credits">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="433.0" layoutY="309.0" text="Starting Semester:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignFacultyName" layoutX="634.0" layoutY="179.0" text="Name will be here">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignFacultyInitial" layoutX="634.0" layoutY="220.0" text="Initial will be here">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignFacultyCreditsText" layoutX="634.0" layoutY="267.0" text="Faculties taken credits">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="634.0" layoutY="309.0" text="Summer">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="35.0" layoutY="453.0" text="Select Picture:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="assignFacultyPictureButton" layoutX="193.0" layoutY="455.0" mnemonicParsing="false" onAction="#uploadFacultyPicture" text="Upload">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="35.0" layoutY="379.0" text="Password:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="confirmButtonFaculty" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#facultyAssignConfirm" text="Confirm">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
-              </content>
+               </content>
             </Tab>
             <Tab fx:id="paymentTab" text="Payment">
               <content>

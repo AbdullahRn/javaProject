@@ -22,4 +22,5 @@ public class OfficerSignUpSceneController {
         HelloApplication.changeScene("loginScene.fxml");
     }
 
+
 }

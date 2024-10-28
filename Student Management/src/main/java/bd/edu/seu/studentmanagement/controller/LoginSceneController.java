@@ -1,6 +1,9 @@
 package bd.edu.seu.studentmanagement.controller;
 
 import bd.edu.seu.studentmanagement.HelloApplication;
+import bd.edu.seu.studentmanagement.service.OfficerReadWrite;
+import bd.edu.seu.studentmanagement.users.Faculty;
+import bd.edu.seu.studentmanagement.users.Officer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginSceneController implements Initializable {
@@ -45,8 +50,13 @@ public class LoginSceneController implements Initializable {
     boolean pass ;
 
 
+
+    @FXML
+    Label warningMessage;
+
     @FXML
     void method1(KeyEvent event) {
+        warningMessage.setVisible(false);
         if(userNameField.getText().length()>3){
             user = true;
         }
@@ -64,6 +74,7 @@ public class LoginSceneController implements Initializable {
 
     @FXML
     void method2(KeyEvent event) {
+        warningMessage.setVisible(false);
         if(forPicture){
             if(passwordTextField.getText().length()>3){
                 pass = true;
@@ -71,6 +82,7 @@ public class LoginSceneController implements Initializable {
             else{
                 pass = false;
             }
+            passs = passwordTextField.getText();
         }
         else{
             if(passwordField.getText().length()>3){
@@ -95,16 +107,21 @@ public class LoginSceneController implements Initializable {
         }
 
 
+
     }
 
 
 
+    String whichUser;
     @FXML
     void facultyClick(MouseEvent event) {
         facultyChoice = true;
         studentChoice = false;
         officerChoice = false;
+        whichUser = "Faculty";
         System.out.println(studentChoice);
+        usernameFieldText.setText("Faculty Initial:");
+        warningMessage.setText("Wrong Faculty Initial or Password!!");
     }
 
     @FXML
@@ -112,7 +129,10 @@ public class LoginSceneController implements Initializable {
         officerChoice = true;
         studentChoice = false;
         facultyChoice = false;
+        whichUser = "Officer";
         System.out.println(studentChoice);
+        usernameFieldText.setText("Officer ID:");
+        warningMessage.setText("Wrong Officer ID or Password!!");
     }
 
     @FXML
@@ -120,7 +140,10 @@ public class LoginSceneController implements Initializable {
         studentChoice = true;
         officerChoice = false;
         facultyChoice = false;
+        whichUser = "Student";
         System.out.println(studentChoice);
+        usernameFieldText.setText("Student ID:");
+        warningMessage.setText("Wrong Student ID or Password!!");
     }
 
 
@@ -148,10 +171,43 @@ public class LoginSceneController implements Initializable {
        System.out.println(forPicture);
    }
 
+   @FXML
+   Label usernameFieldText;
+
     @FXML
     void loginButtonActon(ActionEvent event) {
+       String id = userNameField.getText();
+
+       if(passs.isEmpty()){
+           passs = passwordField.getText();
+       }
+
+
+       if(officerChoice){
+           List<Officer> tempList=  officerList.stream().filter(c->(c.getId().equals(id) && c.getPassword().equals(passs))).toList();
+           if(tempList.size()>0){
+               HelloApplication.changeScene("officerPortal.fxml");
+           }
+           else{
+               warningMessage.setVisible(true);
+           }
+       }
+
+
+        boolean haveMatched=false;
+       //database theke data fetch kre compare krte hbe info thikase naki,
+        //faculty hoile faculty database, student hoile student database, officer hoile officer database theke data ene compare kre dekhbe
+        //info thik thakle ei boolean true hbe, or else false;
+        if(haveMatched){
+            HelloApplication.changeScene("officerLoginScene.fxml");
+        }
+
+
        // HelloApplication.changeScene("officerLoginScene.fxml");
     }
+
+    OfficerReadWrite officerReadWrite = new OfficerReadWrite();
+   List<Officer> officerList = officerReadWrite.read();
 
     @FXML
     void signUpAction(MouseEvent event) {
@@ -182,6 +238,11 @@ public class LoginSceneController implements Initializable {
         forPicture = false;
 
         passwordTextField.setVisible(false);
+
+        whichUser = "Student";
+        usernameFieldText.setText("Student ID:");
+        warningMessage.setText("Wrong ID or Password!!");
+        warningMessage.setVisible(false);
 
     }
 }
