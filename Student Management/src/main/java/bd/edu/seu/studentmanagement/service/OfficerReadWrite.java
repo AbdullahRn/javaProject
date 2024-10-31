@@ -17,7 +17,7 @@ public class OfficerReadWrite {
             Statement statement = connection.createStatement();
             //insert into officer value('Mahbub', 'MAHB', 'MAHB100', 15, 'Summer', 'nasdas');
             //String query = "INSERT INTO faculty VALUE('"  +officer.getName()+ "','"+ officer.getInitial()  + "', '" + officer.getPassword() + "'," + officer.getCredits() + ",'" + officer.getSemester() + "', '" + officer.getImage() + "');";
-            //statement.executeUpdate(query);
+            //statement.execute(query);
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -45,4 +45,6 @@ public class OfficerReadWrite {
         }
         return list;
     }
+
+
 }

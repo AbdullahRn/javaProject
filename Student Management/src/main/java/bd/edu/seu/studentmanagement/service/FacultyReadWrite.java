@@ -17,7 +17,7 @@ public class FacultyReadWrite {
             Statement statement = connection.createStatement();
             //insert into faculty value('Mahbub', 'MAHB', 'MAHB100', 15, 'Summer', 'nasdas');
             String query = "INSERT INTO faculty VALUE('"  +faculty.getName()+ "','"+ faculty.getInitial()  + "', '" + faculty.getPassword() + "'," + faculty.getCredits() + ",'" + faculty.getSemester() + "', '" + faculty.getImage() + "');";
-            statement.executeUpdate(query);
+            statement.execute(query);
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -46,5 +46,22 @@ public class FacultyReadWrite {
         }
         return list;
     }
+
+
+    public void delete(String line) {
+        try{
+            Connection connection = Singleton.getConnection();
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM faculty WHERE id = '"+ line + "';";
+            statement.execute(query);
+
+
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

@@ -1,5 +1,10 @@
 package bd.edu.seu.studentmanagement.controller;
 
+import bd.edu.seu.studentmanagement.service.FacultyReadWrite;
+import bd.edu.seu.studentmanagement.service.OfficerReadWrite;
+import bd.edu.seu.studentmanagement.service.StudentReadWrite;
+import bd.edu.seu.studentmanagement.users.Officer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -31,6 +36,20 @@ public class InfoPortalController implements Initializable {
 
     @FXML
     private Label nameLabel;
+
+    @FXML
+    void deleteButtonAction(ActionEvent event) {
+        if(OfficerPortalController.facultyOrStudentInfo ==0){
+            StudentReadWrite studentReadWrite = new StudentReadWrite();
+            studentReadWrite.delete(OfficerPortalController.popUpStudent.getId());
+            OfficerPortalController.stage.close();
+        }else{
+            FacultyReadWrite facultyReadWrite = new FacultyReadWrite();
+            facultyReadWrite.delete(OfficerPortalController.popUpFaculty.getInitial());
+            OfficerPortalController.stage.close();
+
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

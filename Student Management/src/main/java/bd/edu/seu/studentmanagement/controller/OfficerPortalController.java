@@ -276,6 +276,7 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
+        facultyEditInitiateSolve();
     }
 
     @FXML
@@ -284,6 +285,7 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
+        facultyEditInitiateSolve();
     }
 
     @FXML
@@ -292,6 +294,8 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
+        facultyEditInitiateSolve();
+        refreshDashBoardTables();
     }
 
     @FXML
@@ -300,6 +304,7 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
+        facultyEditInitiateSolve();
     }
 
     @FXML
@@ -308,6 +313,7 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
+        facultyEditInitiateSolve();
     }
 
 
@@ -317,7 +323,7 @@ public class OfficerPortalController implements Initializable {
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
         studentEditInitiateSolve();
-
+        facultyEditInitiateSolve();
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -483,6 +489,13 @@ public class OfficerPortalController implements Initializable {
     Button editButtonStudent;
 
     @FXML
+    Button editButtonFaculty;
+
+    @FXML
+    Button editFacultySearchButton;
+
+
+    @FXML
     void editStudentSearch(ActionEvent event) {
         String search = assignStudentIdField.getText().toLowerCase();
 
@@ -505,9 +518,50 @@ public class OfficerPortalController implements Initializable {
             assignStudentPictureButton.setDisable(false);
 
         }
-
-
     }
+
+
+    @FXML
+    void editFacultySearch(ActionEvent event) {
+        String search = assignFacultyField.getText().toLowerCase();
+
+        FacultyReadWrite facultyReadWrite = new FacultyReadWrite();
+        List<Faculty> list = facultyReadWrite.read();
+        List<Faculty> searchList = list.stream().filter(c-> c.getInitial().equals(search)).toList();
+        if(searchList.size()==0){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Faculty Initial does not match");
+            alert.showAndWait();
+        }
+        else{
+            assignFacultyNameField.setDisable(false);
+            assignFacultyCredits.setDisable(false);
+            assignFacultyPasswordField.setDisable(false);
+            editFacultySearchButton.setVisible(false);
+            assignStudentIdField.setDisable(true);
+            assignFacultyPicture.setDisable(false);
+
+        }
+    }
+
+    static Stage stage = new Stage();
+    @FXML
+    void studentDeleteInitiate(MouseEvent event) {
+        try{
+
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("deleteStudent.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+            stage.setTitle("Delete Student");
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     @FXML
@@ -522,6 +576,36 @@ public class OfficerPortalController implements Initializable {
     }
 
 
+
+    @FXML
+    void facultyEditInitiate(MouseEvent event) {
+        confirmButtonFaculty.setVisible(false);
+        editButtonFaculty.setVisible(true);
+        assignFacultyNameField.setDisable(true);
+        assignFacultyCredits.setDisable(true);
+        assignFacultyPasswordField.setDisable(true);
+        assignFacultyName.setText("");
+        assignFacultyInitial.setText("");
+        assignStudentID.setText("");
+        assignFacultyCreditsText.setVisible(true);
+        assignFacultyPictureButton.setDisable(true);
+        editFacultySearchButton.setVisible(true);
+    }
+
+
+
+    void facultyEditInitiateSolve(){
+        confirmButton.setVisible(true);
+        editButtonStudent.setVisible(false);
+        assignStudentNameField.setDisable(false);
+        assignStudentHscField.setDisable(false);
+        assignStudentPasswordField.setDisable(false);
+        assignStudentName.setText("");
+        assignStudentGpa.setText("");
+        assignStudentID.setText("");
+        editStudentSearchButton.setVisible(false);
+        assignStudentPictureButton.setDisable(false);
+    }
 
 
     @FXML
@@ -554,12 +638,12 @@ public class OfficerPortalController implements Initializable {
     }
 
     @FXML
-    void studentDeleteInitiate(MouseEvent event) {
+    void facultyDeleteInitiate(MouseEvent event) {
         try{
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("deleteStudent.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("deleteFaculty.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
-            stage.setTitle("Delete Student");
+            stage.setTitle("Delete Faculty");
             stage.setScene(scene);
             stage.show();
         }catch(IOException e){
@@ -578,6 +662,33 @@ public class OfficerPortalController implements Initializable {
     public static String CgOrNothing = "";
     public static Student popUpStudent  = new Student();
     public static Faculty popUpFaculty = new Faculty();
+
+
+
+    void refreshDashBoardTables(){
+        StudentReadWrite readWriteObj = new StudentReadWrite();
+        List<Student>  list = readWriteObj.read();
+
+        ObservableList<Student> obsList = FXCollections.observableArrayList(list);
+
+        studentTable.setItems(obsList);
+
+        FacultyReadWrite facultyReadWrite = new FacultyReadWrite();
+        List<Faculty>  list2 = facultyReadWrite.read();
+        ObservableList<Faculty> obsList2 = FXCollections.observableArrayList(list2);
+        facultyTable.setItems(obsList2);
+
+    }
+
+    @FXML
+    void assignCourse(ActionEvent event) {
+
+    }
+
+    @FXML
+    void saveNewCourse(ActionEvent event) {
+
+    }
 
 
 
@@ -607,23 +718,15 @@ public class OfficerPortalController implements Initializable {
         //studentDueColumn.setCellValueFactory(c-> new SimpleDoubleProperty(c.getValue().getDue));  student class e attribute add kre database eo table e add krte hbe
         studentWaiverColumn.setCellValueFactory(c-> new SimpleDoubleProperty(c.getValue().getWaiver()));
 
-        StudentReadWrite readWriteObj = new StudentReadWrite();
-        List<Student>  list = readWriteObj.read();
 
-        ObservableList<Student> obsList = FXCollections.observableArrayList(list);
-
-        studentTable.setItems(obsList);
 
         facultyInitialColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getInitial()));
         facultyNameColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getName()));
         facultyCreditColumn.setCellValueFactory(c-> new SimpleIntegerProperty(c.getValue().getCredits()));
 
-        FacultyReadWrite facultyReadWrite = new FacultyReadWrite();
-        List<Faculty>  list2 = facultyReadWrite.read();
-        ObservableList<Faculty> obsList2 = FXCollections.observableArrayList(list2);
-        facultyTable.setItems(obsList2);
 
-
+        refreshDashBoardTables();
+        editFacultySearchButton.setVisible(false);
 
 
 
@@ -634,10 +737,10 @@ public class OfficerPortalController implements Initializable {
                 if(selectedStudent != null){
                     popUpStudent = selectedStudent;
                     try{
-                        Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("infoPortal.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+                        Scene scene = new Scene(fxmlLoader.load(), 400, 500);
                         stage.setTitle("Student Info");
+                        tab.getSelectionModel().select(gradeTab);
                         stage.setScene(scene);
                         stage.show();
                     }catch(IOException e){
@@ -658,8 +761,9 @@ public class OfficerPortalController implements Initializable {
                     try{
                         Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("infoPortal.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+                        Scene scene = new Scene(fxmlLoader.load(), 400, 500);
                         stage.setTitle("Student Info");
+                        tab.getSelectionModel().select(gradeTab);
                         stage.setScene(scene);
                         stage.show();
                     }catch(IOException e){
@@ -669,10 +773,6 @@ public class OfficerPortalController implements Initializable {
 
             }
         });
-
-
-
-
 
     }
 }

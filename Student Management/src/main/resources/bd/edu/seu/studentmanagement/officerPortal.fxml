@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
@@ -35,19 +36,14 @@
             <Image url="@WelcomeScenePictures/faculty%20assign%20button.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="paymentButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="396.0" onMouseClicked="#paymentButtonAction" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ledgerButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="396.0" onMouseClicked="#ledgerButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20menu%20button%204.png" />
+            <Image url="@WelcomeScenePictures/create%20course%20button.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="ledgerButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="443.0" onMouseClicked="#ledgerButtonAction" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="admitCardButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="444.0" onMouseClicked="#admitCardButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20menu%20buttons%202.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="admitCardButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="491.0" onMouseClicked="#admitCardButtonAction" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@WelcomeScenePictures/student%20menu%20buttons.png" />
+            <Image url="@WelcomeScenePictures/assign%20course%20button.png" />
          </image>
       </ImageView>
       <Label layoutX="15.0" layoutY="161.0" text="OFFICER NAME" textFill="WHITE">
@@ -252,7 +248,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="442.0" layoutY="560.0" onMouseClicked="#studentEditInitiate" text="Edit" textFill="#1500ff">
+                        <Label layoutX="430.0" layoutY="560.0" onMouseClicked="#studentEditInitiate" text="Edit" textFill="#1500ff">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -267,12 +263,12 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Label layoutX="486.0" layoutY="560.0" text="or">
+                        <Label layoutX="470.0" layoutY="559.0" text="or">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="515.0" layoutY="559.0" onMouseClicked="#studentDeleteInitiate" text="Delete" textFill="#1500ff">
+                        <Label layoutX="495.0" layoutY="559.0" onMouseClicked="#studentDeleteInitiate" text="Delete" textFill="#1500ff">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -386,15 +382,113 @@
                               <Font size="23.0" />
                            </font>
                         </Label>
+                        <Button fx:id="editFacultySearchButton" layoutX="249.0" layoutY="165.0" mnemonicParsing="false" onAction="#editStudentSearch" text="Search">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                         <Button fx:id="confirmButtonFaculty" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#facultyAssignConfirm" text="Confirm">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
+                        <Button fx:id="editButtonFaculty" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentEdit" prefHeight="44.0" prefWidth="97.0" text="Edit">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="430.0" layoutY="563.0" onMouseClicked="#facultyEditInitiate" text="Edit" textFill="#1500ff">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="304.0" layoutY="563.0" text="Click here to : ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="470.0" layoutY="562.0" text="or">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="495.0" layoutY="562.0" onMouseClicked="#facultyDeleteInitiate" text="Delete" textFill="#1500ff">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
+          <Tab fx:id="ledgerTab" text="Create Course">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="264.0" layoutY="88.0" text="Course Name:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="courseNameField" layoutX="264.0" layoutY="131.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="264.0" layoutY="186.0" text="Course Code: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="courseCodeField" layoutX="264.0" layoutY="229.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="264.0" layoutY="281.0" text="Slot: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="courseSlotChoiceBox" layoutX="264.0" layoutY="325.0" prefHeight="30.0" prefWidth="276.0" />
+                        <Button fx:id="createCourseSaveButton" layoutX="361.0" layoutY="411.0" mnemonicParsing="false" onAction="#saveNewCourse" prefHeight="30.0" prefWidth="82.0" text="Save">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="admitCardTab" text="Assign Course">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="1018.0">
+                     <children>
+                        <Label layoutX="290.0" layoutY="85.0" text="Assign Course to: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="assignCourseTo" layoutX="290.0" layoutY="129.0" prefHeight="30.0" prefWidth="276.0" />
+                        <Label layoutX="290.0" layoutY="193.0" text="ID/ Initial:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="assignCourseIdOrInitialField" layoutX="290.0" layoutY="242.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Button layoutX="382.0" layoutY="343.0" mnemonicParsing="false" onAction="#assignCourse" prefHeight="30.0" prefWidth="82.0" text="Assign">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
             <Tab fx:id="paymentTab" text="Payment">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -408,37 +502,16 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="ledgerTab" text="Ledger">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="labelasd" layoutX="247.0" layoutY="162.0" text="Ledger">
-                           <font>
-                              <Font size="63.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab fx:id="admitCardTab" text="Admit Card">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="1018.0">
-                     <children>
-                        <Label layoutX="208.0" layoutY="160.0" text="Admit Card">
-                           <font>
-                              <Font size="48.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
         </tabs>
       </TabPane>
       <ImageView fitHeight="30.0" fitWidth="1017.0" layoutX="256.0" layoutY="67.0" pickOnBounds="true">
          <image>
             <Image url="@WelcomeScenePictures/defaultPhoto.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="paymentButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="492.0" onMouseClicked="#paymentButtonAction" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WelcomeScenePictures/student%20menu%20button%204.png" />
          </image>
       </ImageView>
    </children>
