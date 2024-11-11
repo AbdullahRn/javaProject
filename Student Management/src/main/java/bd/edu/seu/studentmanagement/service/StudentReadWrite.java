@@ -16,7 +16,7 @@ public class StudentReadWrite {
             Connection connection = Singleton.getConnection();
             Statement statement = connection.createStatement();
 
-            String query = "INSERT INTO student VALUE('"  +student.getName()+ "', '"+ student.getId()  + "', '" + student.getPassword()  + "'," + student.getHscGpa() + "," + student.getWaiver() + ","+ student.getCgpa() + ", '" + student.getImageURL() + "');";
+            String query = "INSERT INTO student VALUE('"  +student.getName()+ "', '"+ student.getId()  + "', '" + student.getPassword()  + "'," + student.getHscGpa() + "," + student.getWaiver() + ","+ student.getCgpa() + ", '" + student.getImageURL() + "','" + HelloApplication.currentSemester + "');";
             statement.execute(query);
 
         }catch(SQLException e){

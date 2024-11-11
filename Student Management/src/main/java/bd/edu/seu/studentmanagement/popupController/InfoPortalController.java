@@ -1,12 +1,13 @@
-package bd.edu.seu.studentmanagement.controller;
+package bd.edu.seu.studentmanagement.popupController;
 
+import bd.edu.seu.studentmanagement.controller.OfficerPortalController;
+import bd.edu.seu.studentmanagement.service.CourseListSave;
 import bd.edu.seu.studentmanagement.service.FacultyReadWrite;
-import bd.edu.seu.studentmanagement.service.OfficerReadWrite;
 import bd.edu.seu.studentmanagement.service.StudentReadWrite;
-import bd.edu.seu.studentmanagement.users.Officer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +37,9 @@ public class InfoPortalController implements Initializable {
 
     @FXML
     private Label nameLabel;
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     void deleteButtonAction(ActionEvent event) {
@@ -73,5 +77,9 @@ public class InfoPortalController implements Initializable {
             Image image = new Image(path);
             imageView.setImage(image);
         }
+        deleteButton.setVisible(false);
+
+
     }
 }
+

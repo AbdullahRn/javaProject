@@ -1,8 +1,9 @@
 package bd.edu.seu.studentmanagement.controller;
 
 import bd.edu.seu.studentmanagement.HelloApplication;
-import bd.edu.seu.studentmanagement.service.FacultyReadWrite;
-import bd.edu.seu.studentmanagement.service.StudentReadWrite;
+import bd.edu.seu.studentmanagement.otherClasses.Course;
+import bd.edu.seu.studentmanagement.otherClasses.Log;
+import bd.edu.seu.studentmanagement.service.*;
 import bd.edu.seu.studentmanagement.users.Faculty;
 import bd.edu.seu.studentmanagement.users.Student;
 import javafx.beans.Observable;
@@ -33,12 +34,27 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class OfficerPortalController implements Initializable {
+
+
+    @FXML
+    private Label welcomeInitial;
+
+    @FXML
+    private Label welcomeName;
+
+    @FXML
+    private ImageView welcomePicture;
 
 
     @FXML
@@ -151,6 +167,19 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     private Button confirmButtonFaculty;
+
+    @FXML
+    private TableView<Log> adminLogTable;
+
+    @FXML
+    private TableColumn<Log, String> tableAdminColumn;
+
+    @FXML
+    private TableColumn<Log, String> tableDateColumn;
+
+    @FXML
+    private TableColumn<Log, String> tableTaskColumn;
+
 
 
 
@@ -272,6 +301,8 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     void admitCardButtonAction(MouseEvent event) {
+        courseName.setValue(null);
+        assignCourseIdOrInitialField.setText("");
         tab.getSelectionModel().select(admitCardTab);
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
@@ -300,6 +331,10 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     void ledgerButtonAction(MouseEvent event) {
+        courseNameField.setText("");
+        courseCodeField.setText("");
+        courseSlotChoiceBox.setValue(null);
+        assignCourseTabRefresh();
         tab.getSelectionModel().select(ledgerTab);
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
@@ -309,6 +344,7 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     void paymentButtonAction(MouseEvent event) {
+        refreshLogTable();
         tab.getSelectionModel().select(paymentTab);
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
@@ -319,6 +355,8 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     void waiverButtonAction(MouseEvent event) {
+        confirmButtonFaculty.setVisible(true);
+        editButtonFaculty.setVisible(false);
         tab.getSelectionModel().select(waiverTab);
         counterForStudentAssignSlotsClearMethod();
         counterForFacultyAssignSlotsClearMethod();
@@ -410,13 +448,19 @@ public class OfficerPortalController implements Initializable {
 
     }
 
+
+    @FXML
+    void exitPortal(MouseEvent event) {
+        HelloApplication.changeScene("loginScene.fxml");
+    }
+
     @FXML
     public void studentAssignConfirm(ActionEvent actionEvent) {
         String name= assignStudentNameField.getText();
         String id = assignStudentIdField.getText();
         Double hscGpa = Double.parseDouble(assignStudentHscField.getText());
         Double waiver = finalWaiver;
-        String semester = assignStudentSemesterField.getText();
+        String semester = HelloApplication.currentSemester;
         System.out.println(semester);
         String image = imageUrl;
         String password = assignStudentPasswordField.getText();
@@ -464,10 +508,11 @@ public class OfficerPortalController implements Initializable {
 
     @FXML
     public void facultyAssignConfirm(ActionEvent actionEvent) {
+
         String name= assignFacultyNameField.getText();
         String initial = assignFacultyInitial.getText();
         int credits = Integer.parseInt(assignFacultyCreditsText.getText());
-        String semester = assignStudentSemesterField.getText();
+        String semester = HelloApplication.currentSemester;
         String password = assignStudentPasswordField.getText();
         System.out.println(semester);
         String image = facultyImageUrl;
@@ -546,13 +591,13 @@ public class OfficerPortalController implements Initializable {
         }
     }
 
-    static Stage stage = new Stage();
+    public static Stage stage = new Stage();
     @FXML
     void studentDeleteInitiate(MouseEvent event) {
         try{
 
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("deleteStudent.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
             stage.setTitle("Delete Student");
             stage.setScene(scene);
             stage.show();
@@ -678,16 +723,156 @@ public class OfficerPortalController implements Initializable {
         ObservableList<Faculty> obsList2 = FXCollections.observableArrayList(list2);
         facultyTable.setItems(obsList2);
 
+
+
     }
+
+
+    void refreshLogTable(){
+        LogEditor logEditor = new LogEditor();
+        List<Log> list = logEditor.read();
+        ObservableList<Log> obsList = FXCollections.observableArrayList(list);
+
+        adminLogTable.setItems(obsList);
+    }
+    @FXML
+    TextField assignCourseIdOrInitialField;
 
     @FXML
     void assignCourse(ActionEvent event) {
+        SearchForCourseSlot searchForCourseSlot = new SearchForCourseSlot();
+        if(assignCourseTo.getValue().equals("Faculty")){
+            String code = courseName.getValue();
+            String initial = facultySelectToAssignCourse.getValue();
+            int slot =  courseSlotChoiceBox.getValue();
+            Course course= new Course(code, initial, slot, 0);
+
+
+            CourseListSave courseListSave = new CourseListSave();
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            List<Integer> list = searchForCourseSlot.searchFromFaculty(facultySelectToAssignCourse.getValue(), courseSlotChoiceBox.getValue());
+            if(list.size()>0){
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Slot conflicts, try other course");
+                alert.showAndWait();
+            }
+            else{
+                courseListSave.assignFacultyToExistingCourse(course);
+                alert.setTitle("Assign Course");
+                alert.setHeaderText(null);
+                alert.setContentText("Successull");
+                alert.showAndWait();
+
+            }
+
+            for(Integer i: list){
+                System.out.println(i);
+            }
+
+
+
+        }
+        else{
+            String code = courseName.getValue();
+            String id = assignCourseIdOrInitialField.getText();
+            int slot =  methodToGetCourseSlot(code);
+
+            CourseListSave courseListSave = new CourseListSave();
+
+
+            List<Integer> list = searchForCourseSlot.searchFromStudent(assignCourseIdOrInitialField.getText());
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            if(list.size()>0){
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Slot conflicts, try other slot");
+                alert.showAndWait();
+            }
+            else{
+                Course course1 = new Course(code, slot );
+                CourseListSave courseListSave2 = new CourseListSave();;
+                courseListSave2.studentCountIncrement(course1);
+                courseListSave.addStudentsToCourse(code, id, HelloApplication.currentSemester, slot);
+                alert.setTitle("Assign Course");
+                alert.setHeaderText(null);
+                alert.setContentText("Successull");
+                alert.showAndWait();
+            }
+            for(Integer i: list){
+                System.out.println(i);
+            }
+
+        }
+
+
+
+        /**
+         * eikhane existing course er moddhe faculty add krtesilam, semester change e issue hoy, tai ei part apadoto baad
+         */
+       // courseListSave.assignFacultyToExistingCourse(course);
+
+    }
+
+    int methodToGetCourseSlot(String code){
+        int slot = 0;
+        try{
+            Connection connection = Singleton.getConnection();
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM course WHERE code = '" + code + "';";
+            ResultSet resultset = statement.executeQuery(query);
+            while(resultset.next()){
+                String name = resultset.getString("name");
+                slot = resultset.getInt("slot");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return slot;
+    }
+
+
+    @FXML
+    TextField courseNameField;
+
+    @FXML
+    TextField courseCodeField;
+
+    @FXML
+    ChoiceBox<Integer> courseSlotChoiceBox;
+
+    @FXML
+    void saveNewCourse(ActionEvent event) {
+      String name = courseNameField.getText();
+      String code = courseCodeField.getText();
+      Integer totalSeat = Integer.parseInt(totalSeatField.getText());
+     // int slot = courseSlotChoiceBox.getValue();
+        Course course = new Course(name, code, totalSeat);
+        CourseListSave courseListSave = new CourseListSave();
+        courseListSave.save(course);
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeString = time.format(formatter);
+        Log log = new Log("Kashem", "Added new course", timeString );
+        LogEditor logEditor = new LogEditor();
+        logEditor.save(log);
 
     }
 
     @FXML
-    void saveNewCourse(ActionEvent event) {
-
+    void fixSemester(ActionEvent event) {
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("selectSemester.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            stage.setTitle("Select Semester ");
+            tab.getSelectionModel().select(gradeTab);
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -705,6 +890,9 @@ public class OfficerPortalController implements Initializable {
         assignFacultyInitial.setText("");
         assignFacultyCreditsText.setText("");
         assignFacultySemesterField.setDisable(true);
+        assignFacultySemesterField.setText(HelloApplication.currentSemester);
+        assignStudentSemesterField.setDisable(true);
+        assignStudentSemesterField.setText(HelloApplication.currentSemester);
 
         editStudentSearchButton.setVisible(false);
         editButtonStudent.setVisible(false);
@@ -729,6 +917,12 @@ public class OfficerPortalController implements Initializable {
         editFacultySearchButton.setVisible(false);
 
 
+        tableAdminColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getAdminName()));
+        tableTaskColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getTask()));
+        tableDateColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getTime()));
+
+        refreshLogTable();
+
 
         studentTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
@@ -740,7 +934,7 @@ public class OfficerPortalController implements Initializable {
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("infoPortal.fxml"));
                         Scene scene = new Scene(fxmlLoader.load(), 400, 500);
                         stage.setTitle("Student Info");
-                        tab.getSelectionModel().select(gradeTab);
+                     //   tab.getSelectionModel().select(gradeTab);
                         stage.setScene(scene);
                         stage.show();
                     }catch(IOException e){
@@ -763,7 +957,7 @@ public class OfficerPortalController implements Initializable {
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("infoPortal.fxml"));
                         Scene scene = new Scene(fxmlLoader.load(), 400, 500);
                         stage.setTitle("Student Info");
-                        tab.getSelectionModel().select(gradeTab);
+                       // tab.getSelectionModel().select(gradeTab);
                         stage.setScene(scene);
                         stage.show();
                     }catch(IOException e){
@@ -774,6 +968,84 @@ public class OfficerPortalController implements Initializable {
             }
         });
 
+
+        List<Integer> liist = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8));
+
+        ObservableList<Integer> obsLiist = FXCollections.observableArrayList(liist);
+        courseSlotChoiceBox.setItems(obsLiist);
+        courseSlotChoiceBox.setValue(0);
+        courseSlotChoiceBox.setDisable(true);
+        List<String> assignList = new ArrayList<>(Arrays.asList("Faculty", "Student"));
+        ObservableList<String> obsAssignList  = FXCollections.observableArrayList(assignList);
+        assignCourseTo.setItems(obsAssignList);
+
+        //course list assign er combo box upload hoy ekhane, eta method e shift krte hbe
+
+        CourseListSave courseListSave = new CourseListSave();
+        List<Course> liiist = courseListSave.getCourseList();
+        List<String> tempList = new ArrayList<>();
+        for(Course i: liiist){
+            tempList.add(i.getCode());
+        }
+
+        //if(assignCourseTo!= null)
+        ObservableList<String> obsList2 = FXCollections.observableArrayList(tempList);
+        courseName.setItems(obsList2);
+
+        courseSlotChoiceBox.setDisable(true);
+        assignCourseIdOrInitialField.setVisible(false);
+
+        assignCourseTabRefresh();
+
+        assignCourseTo.setOnAction(event -> {
+            if(assignCourseTo.getValue().equals("Faculty")){
+                courseSlotChoiceBox.setDisable(false);
+                assignCourseIdOrInitialField.setVisible(false);
+                facultySelectToAssignCourse.setVisible(true);
+            }
+            else{
+                courseSlotChoiceBox.setDisable(true);
+                assignCourseIdOrInitialField.setVisible(true);
+                facultySelectToAssignCourse.setVisible(false);
+            } // Call the method with the selected item
+        });
+
+        Image image = new Image(LoginSceneController.LOGGEDOFFICER.getImage());
+        welcomePicture.setImage(image);
+
+
+        welcomeInitial.setText(LoginSceneController.LOGGEDOFFICER.getId());
+        welcomeName.setText(LoginSceneController.LOGGEDOFFICER.getName());
+
+//        System.out.println(LoginSceneController.LOGGEDOFFICER.getName());
+//        System.out.println(LoginSceneController.LOGGEDOFFICER.getImage());
+
+
+
     }
+
+    void assignCourseTabRefresh(){
+        FacultyReadWrite f = new FacultyReadWrite();
+        List<Faculty> l = f.read();
+        List<String> ll = l.stream().map(Faculty::getInitial).collect(Collectors.toList());
+        ObservableList<String> obs = FXCollections.observableArrayList(ll);
+        facultySelectToAssignCourse.setItems(obs);
+    }
+
+
+
+    @FXML
+    ChoiceBox<String> courseName;
+
+    @FXML
+    ChoiceBox<String> assignCourseTo;
+
+    @FXML
+    private TextField totalSeatField;
+
+    @FXML
+    ChoiceBox<String> facultySelectToAssignCourse;
+
+
 }
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.controller.DeleteStudentController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.studentmanagement.popupController.DeleteStudentController">
    <children>
       <Label layoutX="131.0" layoutY="130.0" text="Student ID:">
          <font>

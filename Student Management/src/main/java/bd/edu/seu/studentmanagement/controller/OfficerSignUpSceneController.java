@@ -18,6 +18,11 @@ public class OfficerSignUpSceneController {
     private TextField userNameField;
 
     @FXML
+    void exit(ActionEvent event) {
+        HelloApplication.changeScene("loginScene.fxml");
+    }
+
+    @FXML
     void signUpButtonAction(ActionEvent event) {
         HelloApplication.changeScene("loginScene.fxml");
     }

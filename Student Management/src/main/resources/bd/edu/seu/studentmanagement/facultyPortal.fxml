@@ -3,6 +3,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,7 +18,7 @@
             <Image url="@WelcomeScenePictures/faculty%20portal.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" onMouseClicked="#exitPortal" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@WelcomeScenePictures/return%20Button.png" />
          </image>
@@ -45,24 +48,24 @@
             <Image url="@WelcomeScenePictures/student%20menu%20buttons.png" />
          </image>
       </ImageView>
-      <Label layoutX="15.0" layoutY="161.0" text="STUDENT NAME" textFill="WHITE">
+      <Label fx:id="welcomeName" layoutX="15.0" layoutY="161.0" text="STUDENT NAME" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="191.0" text="STUDENT ID:" textFill="WHITE">
+      <Label fx:id="welcomeInitial" layoutX="15.0" layoutY="191.0" text="STUDENT ID:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="125.0" fitWidth="103.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true">
+      <ImageView fx:id="welcomePicture" fitHeight="125.0" fitWidth="103.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true">
          <image>
             <Image url="@WelcomeScenePictures/defaultPhoto.png" />
          </image>
       </ImageView>
       <ImageView fx:id="homeButton" fitHeight="50.0" fitWidth="253.0" layoutX="1.0" layoutY="253.0" onMouseClicked="#homeButtonAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WelcomeScenePictures/student%20meny%20button%206.png" />
+            <Image url="@WelcomeScenePictures/button.png" />
          </image>
       </ImageView>
       <TabPane fx:id="tab" layoutX="255.0" layoutY="67.0" prefHeight="646.0" prefWidth="1017.0" tabClosingPolicy="UNAVAILABLE">
@@ -71,9 +74,26 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="304.0" layoutY="196.0" text="Home">
+                        <TableView fx:id="courseDetailsTable" layoutX="21.0" layoutY="170.0" prefHeight="427.0" prefWidth="449.0">
+                          <columns>
+                            <TableColumn fx:id="slotCourseDetailsTable" prefWidth="81.0" text="Slot" />
+                            <TableColumn fx:id="nameCourseDetailsTable" prefWidth="190.0" text="Name" />
+                              <TableColumn fx:id="codeCourseDetailsTable" prefWidth="85.0" text="Course Code" />
+                              <TableColumn fx:id="totalStudentCourseDetailsTable" prefWidth="92.0" text="Total Student" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="courseStudentInfo" layoutX="483.0" layoutY="169.0" prefHeight="428.0" prefWidth="518.0">
+                          <columns>
+                            <TableColumn fx:id="idCourseStudentInfo" prefWidth="133.0" text="ID" />
+                            <TableColumn fx:id="nameCourseStudentInfo" prefWidth="213.0" text="Name" />
+                              <TableColumn fx:id="marksCourseStudentInfo" prefWidth="171.0" text="Marks" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="courseSearchBar" layoutX="21.0" layoutY="136.0" onKeyReleased="#searchCourse" prefHeight="25.0" prefWidth="448.0" promptText="Search Course" />
+                        <TextField fx:id="studentSearchBar" layoutX="483.0" layoutY="136.0" onKeyReleased="#searchStudent" prefHeight="25.0" prefWidth="517.0" promptText="Search Student" />
+                        <Label layoutX="168.0" layoutY="14.0" text="Course and Student Information">
                            <font>
-                              <Font size="44.0" />
+                              <Font size="48.0" />
                            </font>
                         </Label>
                      </children>
@@ -84,9 +104,49 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="278.0" layoutY="263.0" text="Grade">
+                        <ImageView fx:id="assignStudentPicture" fitHeight="159.0" fitWidth="182.0" layoutX="668.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@WelcomeScenePictures/ezgif-2-63d3b7c290.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="102.0" layoutY="144.0" text="Name:">
                            <font>
-                              <Font size="48.0" />
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="102.0" layoutY="185.0" text="Initial:">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="102.0" layoutY="232.0" text="Total Credits: ">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="102.0" layoutY="274.0" text="Due Payment:">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignName" layoutX="303.0" layoutY="144.0" text="Name will be here">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignInitial" layoutX="303.0" layoutY="185.0" text="Initial will be here ">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignTotalCredits" layoutX="303.0" layoutY="232.0" text="Credits">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="assignDueAmount" layoutX="303.0" layoutY="274.0" text="Due Amount">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
                            </font>
                         </Label>
                      </children>
@@ -97,9 +157,129 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="283.0" layoutY="215.0" text="Waiver">
+                        <ImageView fitHeight="503.0" fitWidth="995.0" layoutX="11.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@WelcomeScenePictures/routine%20template.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="48.0" layoutY="178.0" text="Sunday">
                            <font>
-                              <Font size="46.0" />
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="48.0" layoutY="287.0" text="Monday">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="48.0" layoutY="390.0" text="Tuesday">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="26.0" layoutY="499.0" text="Wednesday">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="207.0" layoutY="105.0" text="10:00 AM-11:20 AM">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="416.0" layoutY="105.0" text="11:30 AM-12:50 PM">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="625.0" layoutY="105.0" text="01:30 PM-2:50 PM">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="824.0" layoutY="105.0" text="03:00 PM-04:20 PM">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot1" layoutX="250.0" layoutY="169.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot2" layoutX="455.0" layoutY="169.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot3" layoutX="657.0" layoutY="169.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot4" layoutX="862.0" layoutY="169.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot5" layoutX="248.0" layoutY="280.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot6" layoutX="457.0" layoutY="280.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot7" layoutX="659.0" layoutY="280.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot8" layoutX="864.0" layoutY="280.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot11" layoutX="249.0" layoutY="390.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot12" layoutX="457.0" layoutY="390.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot13" layoutX="659.0" layoutY="390.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot14" layoutX="864.0" layoutY="390.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot15" layoutX="246.0" layoutY="499.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot16" layoutX="457.0" layoutY="499.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot17" layoutX="659.0" layoutY="499.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="slot18" layoutX="864.0" layoutY="499.0" text="Course">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
                            </font>
                         </Label>
                      </children>

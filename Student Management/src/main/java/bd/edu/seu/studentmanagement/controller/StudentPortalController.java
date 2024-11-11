@@ -1,5 +1,6 @@
 package bd.edu.seu.studentmanagement.controller;
 
+import bd.edu.seu.studentmanagement.HelloApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -81,6 +82,10 @@ public class StudentPortalController implements Initializable {
     }
 
 
+    @FXML
+    void exitPortal(MouseEvent event) {
+        HelloApplication.changeScene("loginScene.fxml");
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

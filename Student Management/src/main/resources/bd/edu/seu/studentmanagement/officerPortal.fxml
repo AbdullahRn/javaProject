@@ -21,7 +21,7 @@
             <Image url="@WelcomeScenePictures/Officer%20portal.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="60.0" fitWidth="67.0" layoutX="1207.0" layoutY="4.0" onMouseClicked="#exitPortal" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@WelcomeScenePictures/return%20Button.png" />
          </image>
@@ -46,17 +46,17 @@
             <Image url="@WelcomeScenePictures/assign%20course%20button.png" />
          </image>
       </ImageView>
-      <Label layoutX="15.0" layoutY="161.0" text="OFFICER NAME" textFill="WHITE">
+      <Label fx:id="welcomeName" layoutX="15.0" layoutY="161.0" text="OFFICER NAME" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="15.0" layoutY="191.0" text="OFFICER ID:" textFill="WHITE">
+      <Label fx:id="welcomeInitial" layoutX="15.0" layoutY="191.0" text="OFFICER ID:" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="125.0" fitWidth="103.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true">
+      <ImageView fx:id="welcomePicture" fitHeight="125.0" fitWidth="103.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true">
          <image>
             <Image url="@WelcomeScenePictures/defaultPhoto.png" />
          </image>
@@ -119,6 +119,11 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
+                        <Button layoutX="864.0" layoutY="54.0" mnemonicParsing="false" onAction="#fixSemester" text="Assign Semester">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
               </content>
@@ -162,7 +167,7 @@
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="assignStudentSemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0" text="Summer">
+                        <TextField fx:id="assignStudentSemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -228,11 +233,6 @@
                               <Font size="23.0" />
                            </font>
                         </Label>
-                        <Button fx:id="confirmButton" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentAssignConfirm" text="Confirm">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
                         <Button fx:id="assignStudentPictureButton" layoutX="193.0" layoutY="455.0" mnemonicParsing="false" onAction="#uploadStudentPicture" text="Upload">
                            <font>
                               <Font size="15.0" />
@@ -259,6 +259,11 @@
                            </font>
                         </Button>
                         <Button fx:id="editButtonStudent" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentEdit" prefHeight="44.0" prefWidth="97.0" text="Edit">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="confirmButton" layoutX="407.0" layoutY="497.0" mnemonicParsing="false" onAction="#studentAssignConfirm" text="Confirm">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -316,7 +321,7 @@
                               <Font size="23.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="assignFacultySemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0" text="Summer">
+                        <TextField fx:id="assignFacultySemesterField" layoutX="35.0" layoutY="334.0" prefHeight="24.0" prefWidth="276.0">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -445,12 +450,16 @@
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="264.0" layoutY="281.0" text="Slot: ">
+                        <Label layoutX="264.0" layoutY="290.0" text="Total Seat:">
                            <font>
                               <Font size="23.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="courseSlotChoiceBox" layoutX="264.0" layoutY="325.0" prefHeight="30.0" prefWidth="276.0" />
+                        <TextField fx:id="totalSeatField" layoutX="265.0" layoutY="335.0" prefHeight="24.0" prefWidth="276.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
                         <Button fx:id="createCourseSaveButton" layoutX="361.0" layoutY="411.0" mnemonicParsing="false" onAction="#saveNewCourse" prefHeight="30.0" prefWidth="82.0" text="Save">
                            <font>
                               <Font size="17.0" />
@@ -464,23 +473,36 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="1018.0">
                      <children>
-                        <Label layoutX="290.0" layoutY="85.0" text="Assign Course to: ">
+                        <Label layoutX="285.0" layoutY="94.0" text="Assign Course to: ">
                            <font>
                               <Font size="23.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="assignCourseTo" layoutX="290.0" layoutY="129.0" prefHeight="30.0" prefWidth="276.0" />
-                        <Label layoutX="290.0" layoutY="193.0" text="ID/ Initial:">
+                        <ChoiceBox fx:id="courseName" layoutX="285.0" layoutY="222.0" prefHeight="30.0" prefWidth="276.0" />
+                        <Label layoutX="285.0" layoutY="270.0" text="ID/ Initial:">
                            <font>
                               <Font size="23.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="assignCourseIdOrInitialField" layoutX="290.0" layoutY="242.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
+                        <TextField fx:id="assignCourseIdOrInitialField" layoutX="285.0" layoutY="314.0" onKeyReleased="#assignFacultyNameInitiate" prefHeight="24.0" prefWidth="276.0">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Button layoutX="382.0" layoutY="343.0" mnemonicParsing="false" onAction="#assignCourse" prefHeight="30.0" prefWidth="82.0" text="Assign">
+                        <Label layoutX="285.0" layoutY="180.0" text="Course:">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="assignCourseTo" layoutX="285.0" layoutY="140.0" prefHeight="30.0" prefWidth="276.0" />
+                        <Label layoutX="285.0" layoutY="363.0" text="Slot: ">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="facultySelectToAssignCourse" layoutX="285.0" layoutY="314.0" prefHeight="30.0" prefWidth="276.0" />
+                        <ChoiceBox fx:id="courseSlotChoiceBox" layoutX="285.0" layoutY="407.0" prefHeight="30.0" prefWidth="276.0" />
+                        <Button layoutX="382.0" layoutY="490.0" mnemonicParsing="false" onAction="#assignCourse" prefHeight="30.0" prefWidth="82.0" text="Assign">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -493,11 +515,13 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="395.0" layoutY="231.0" text="Payment">
-                           <font>
-                              <Font size="52.0" />
-                           </font>
-                        </Label>
+                        <TableView fx:id="adminLogTable" layoutX="74.0" layoutY="88.0" prefHeight="468.0" prefWidth="824.0">
+                          <columns>
+                            <TableColumn fx:id="tableAdminColumn" prefWidth="144.0" text="Admin" />
+                            <TableColumn fx:id="tableTaskColumn" prefWidth="410.0" text="Task" />
+                              <TableColumn fx:id="tableDateColumn" minWidth="0.0" prefWidth="268.0" text="Date &amp; TIme" />
+                          </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
               </content>

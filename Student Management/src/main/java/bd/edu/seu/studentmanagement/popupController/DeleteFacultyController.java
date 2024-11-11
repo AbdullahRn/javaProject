@@ -1,9 +1,8 @@
-package bd.edu.seu.studentmanagement.controller;
+package bd.edu.seu.studentmanagement.popupController;
 
+import bd.edu.seu.studentmanagement.controller.OfficerPortalController;
 import bd.edu.seu.studentmanagement.service.FacultyReadWrite;
-import bd.edu.seu.studentmanagement.service.StudentReadWrite;
 import bd.edu.seu.studentmanagement.users.Faculty;
-import bd.edu.seu.studentmanagement.users.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

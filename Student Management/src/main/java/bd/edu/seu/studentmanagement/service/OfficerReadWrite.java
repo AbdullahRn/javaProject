@@ -16,8 +16,8 @@ public class OfficerReadWrite {
             Connection connection = Singleton.getConnection();
             Statement statement = connection.createStatement();
             //insert into officer value('Mahbub', 'MAHB', 'MAHB100', 15, 'Summer', 'nasdas');
-            //String query = "INSERT INTO faculty VALUE('"  +officer.getName()+ "','"+ officer.getInitial()  + "', '" + officer.getPassword() + "'," + officer.getCredits() + ",'" + officer.getSemester() + "', '" + officer.getImage() + "');";
-            //statement.execute(query);
+            String query = "INSERT INTO officer VALUE('"  +officer.getName()+ "','"+ officer.getId()  + "', '" + officer.getPassword() + "','" + officer.getImage() + "','" + officer.getReference() + "');";
+            statement.execute(query);
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class OfficerReadWrite {
                 String password = resultset.getString("password");
                 String reference = resultset.getString("reference");
                 String image = resultset.getString("image");
-                Officer officer = new Officer(name, initial, password, reference, image);
+                Officer officer = new Officer(name, initial, password, image, reference);
                 list.add(officer);
             }
         }catch(SQLException e){

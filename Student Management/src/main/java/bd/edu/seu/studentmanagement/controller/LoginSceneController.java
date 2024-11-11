@@ -1,15 +1,19 @@
 package bd.edu.seu.studentmanagement.controller;
 
 import bd.edu.seu.studentmanagement.HelloApplication;
+import bd.edu.seu.studentmanagement.service.FacultyReadWrite;
 import bd.edu.seu.studentmanagement.service.OfficerReadWrite;
+import bd.edu.seu.studentmanagement.service.StudentParticularCourseInfoReadWrite;
+import bd.edu.seu.studentmanagement.service.StudentReadWrite;
 import bd.edu.seu.studentmanagement.users.Faculty;
 import bd.edu.seu.studentmanagement.users.Officer;
+import bd.edu.seu.studentmanagement.users.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -112,6 +116,8 @@ public class LoginSceneController implements Initializable {
 
 
 
+
+
     String whichUser;
     @FXML
     void facultyClick(MouseEvent event) {
@@ -186,12 +192,34 @@ public class LoginSceneController implements Initializable {
        if(officerChoice){
            List<Officer> tempList=  officerList.stream().filter(c->(c.getId().equals(id) && c.getPassword().equals(passs))).toList();
            if(tempList.size()>0){
+               LOGGEDOFFICER = tempList.get(0);
                HelloApplication.changeScene("officerPortal.fxml");
            }
            else{
                warningMessage.setVisible(true);
            }
        }
+       else if(studentChoice){
+           List<Student> tempList = studentList.stream().filter(c->(c.getId().equals(id) && c.getPassword().equals(passs))).toList();
+           if(tempList.size()>0){
+               LOGGEDINSTUDENT = tempList.get(0);
+               HelloApplication.changeScene("studentPortal.fxml");
+           }
+           else{
+               warningMessage.setVisible(true);
+           }
+       }
+       else if(facultyChoice){
+           List<Faculty> tempList = facultyList.stream().filter(c->(c.getInitial().equals(id) && c.getPassword().equals(passs))).toList();
+           if(tempList.size()>0){
+               LOGGEDINFACULTY = tempList.get(0);
+               HelloApplication.changeScene("facultyPortal.fxml");
+           }
+           else{
+               warningMessage.setVisible(true);
+           }
+       }
+
 
 
         boolean haveMatched=false;
@@ -207,12 +235,28 @@ public class LoginSceneController implements Initializable {
     }
 
     OfficerReadWrite officerReadWrite = new OfficerReadWrite();
-   List<Officer> officerList = officerReadWrite.read();
+    List<Officer> officerList = officerReadWrite.read();
+
+    StudentReadWrite studentReadWrite = new StudentReadWrite();
+    List<Student> studentList = studentReadWrite.read();
+
+    FacultyReadWrite facultyReadWrite = new FacultyReadWrite();
+    List<Faculty> facultyList = facultyReadWrite.read();
+
 
     @FXML
     void signUpAction(MouseEvent event) {
+        if(studentChoice || facultyChoice){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Signup");
+            alert.setHeaderText(null);
+            alert.setContentText("Contact with admin to create account");
+            alert.showAndWait();
+        }
+        else if(officerChoice) {
+            HelloApplication.changeScene("officerSignUpScene.fxml");
+        }
 
-        HelloApplication.changeScene("officerSignUpScene.fxml");
     }
 
     boolean studentChoice;
@@ -221,6 +265,10 @@ public class LoginSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        LOGGEDINSTUDENT = null;
+        LOGGEDINFACULTY = null;
+        LOGGEDOFFICER = null;
+
         studentChoice = true;
         officerChoice = false;
         facultyChoice = false;
@@ -245,4 +293,8 @@ public class LoginSceneController implements Initializable {
         warningMessage.setVisible(false);
 
     }
+    public static Student LOGGEDINSTUDENT = null;
+    public static Faculty LOGGEDINFACULTY = null;
+    public static Officer LOGGEDOFFICER = null;
+
 }
